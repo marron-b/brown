@@ -1,7 +1,5 @@
 # brown
-<img src="https://img.shields.io/badge/markdown-000000?style=flat-square&logo=markdown&logoColor=white"/>
-<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/GithubPages-000000?style=flat-square&logo=GithubPages&logoColor=white"/>
+<img src="https://img.shields.io/badge/markdown-000000?style=flat-square&logo=markdown&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/GithubPages-000000?style=flat-square&logo=GithubPages&logoColor=white"/>
 
 ## 실행하기
 1. 소스 클론하기
@@ -23,12 +21,16 @@ yarn dev
 ## 구조 설명
 ```shell
 brown
+└── config
+└── context
 └── lib
 └── pages
     └── api
     └── develop
     └── tech_report
 ```
+* config - 설정
+* context - context
 * lib - 공통으로 사용하는 유틸
 * pages - 페이지
 * pages/api - REST api 
@@ -36,6 +38,7 @@ brown
 * pages/tech_reports - 기술 리포트
 ### apis
 ```shell
+
 /api/ping - ping
 ```
 
