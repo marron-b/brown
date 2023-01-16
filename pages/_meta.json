@@ -1,0 +1,18 @@
+{
+  "index": {
+    "title": "Brown",
+    "display": "hidden",
+    "theme": {
+      "breadcrumb": false,
+      "footer": false,
+      "sidebar": true,
+      "pagination": false
+    }
+  },
+  "develop": {
+    "title": "개발 아티클"
+  },
+  "tech_reports": {
+    "title": "기술 리포트"
+  }
+}
