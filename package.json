@@ -1,5 +1,5 @@
 {
-  "homepage": "http://marron-b.github.io/marron-b",
+  "homepage": "https://marron-b.github.io/brown",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
