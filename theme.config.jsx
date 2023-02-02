@@ -27,7 +27,7 @@ export default {
     footer: {
         component: <div/>
     },
-    primaryHue: 245,
+    primaryHue: 38,
     font: false,
     head: <>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

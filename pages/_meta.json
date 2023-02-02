@@ -12,10 +12,36 @@
   "styleguide_research": {
     "title": "스타일 가이드 훑어보기"
   },
+  "tech_reports": {
+    "title": "기술 리포트"
+  },
+  "IT_branding": {
+    "title": "IT 브랜딩"
+  },
   "---": {
     "type": "separator"
   },
- "tech_reports": {
-    "title": "기술 리포트"
+  "develop": {
+    "title": "개발"
+  },
+  "about": {
+    "title": "about",
+    "display": "hidden",
+    "theme": {
+      "breadcrumb": false,
+      "footer": false,
+      "sidebar": true,
+      "pagination": false
+    }
+  },
+  "company": {
+    "title": "Brown",
+    "type": "menu",
+    "items": {
+      "about": {
+        "title": "테크니컬 라이터",
+        "href": "/about"
+      }
+    }
   }
 }
