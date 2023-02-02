@@ -12,7 +12,10 @@
   "styleguide_research": {
     "title": "스타일 가이드 훑어보기"
   },
-  "tech_reports": {
+  "---": {
+    "type": "separator"
+  },
+ "tech_reports": {
     "title": "기술 리포트"
   }
 }
