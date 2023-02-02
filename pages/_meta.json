@@ -24,6 +24,9 @@
   "develop": {
     "title": "개발"
   },
+  "test_about": {
+    "display": "hidden"
+  },
   "about": {
     "title": "about",
     "display": "hidden",
@@ -41,6 +44,12 @@
       "about": {
         "title": "테크니컬 라이터",
         "href": "/about"
+      },
+      "markdown_cheatsheet": {
+        "title": "마크다운 치트시트",
+        "type": "page",
+        "href": "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet",
+        "newWindow": true
       }
     }
   }
