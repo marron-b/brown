@@ -1,10 +1,10 @@
-# brown
+# marron-b.github.io
 <img src="https://img.shields.io/badge/markdown-000000?style=flat-square&logo=markdown&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/GithubPages-000000?style=flat-square&logo=GithubPages&logoColor=white"/>
 
 ## 실행하기
 1. 소스 클론하기
 ```shell
-git clone https://github.com/marron-b/brown.git
+git clone git@github.com:marron-b/marron-b.github.io.git
 ```
 
 2. yarn 사용해서 패키지 설치하기

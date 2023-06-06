@@ -1,5 +1,5 @@
 export default {
-    logo: <span>Brown</span>,
+    logo: <span></span>,
     navigation: {
         prev: true,
         next: true

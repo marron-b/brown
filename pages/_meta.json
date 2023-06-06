@@ -9,14 +9,8 @@
       "pagination": false
     }
   },
-  "styleguide_research": {
-    "title": "스타일 가이드 훑어보기"
-  },
   "tech_reports": {
     "title": "기술 리포트"
-  },
-  "IT_branding": {
-    "title": "IT 브랜딩"
   },
   "---": {
     "type": "separator"
@@ -35,22 +29,6 @@
       "footer": false,
       "sidebar": true,
       "pagination": false
-    }
-  },
-  "company": {
-    "title": "Brown",
-    "type": "menu",
-    "items": {
-      "about": {
-        "title": "테크니컬 라이터",
-        "href": "/about"
-      },
-      "markdown_cheatsheet": {
-        "title": "마크다운 치트시트",
-        "type": "page",
-        "href": "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet",
-        "newWindow": true
-      }
     }
   }
 }
