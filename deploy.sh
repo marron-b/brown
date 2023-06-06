@@ -14,3 +14,6 @@ yarn static
 
 # Run yarn deploy command
 yarn deploy
+
+# Checkout main
+git checkout main
