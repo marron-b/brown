@@ -1,0 +1,61 @@
+---
+title: SEO를 위한 ChatGPT 3가지 사용 사례
+description: SEO를 위한 ChatGPT 3가지 사용 사례
+---
+# SEO를 위한 ChatGPT 3가지 사용 사례
+디지털 마케팅, 특히 SEO 작업은 ChatGPT를 활용한다면 기존보다 더 빠르고 효율적으로 SEO 작업을 할 수 있습니다. 아래는 SEO에 작업에 ChatGPT를 활용할 수 있는 작업 3가지입니다.
+
+## robots.txt 생성하기
+ChatGPT를 사용해서 robots.txt를 작성할 수 있습니다. 대부분의 웹사이트는 기본적으로 가입, 로그인, 로그아웃, 비밀번호 변경 페이지가 크롤링이 되지 않도록 robots.txt를 작성해야 합니다.
+
+### 프롬프트
+register, login, logout, password 페이지가 크롤링되지 않도록 차단하는 robots.txt를 만듭니다.
+
+### ChatGPT 응답
+```shell
+User-agent: *
+Disallow: /register
+Disallow: /login
+Disallow: /logout
+Disallow: /password
+```
+
+특정 크롤러가 특정 디렉터리에 액세스 하지 못하도록 방지하고 싶을 수 도 있습니다. 이럴 때는 이러한 규칙을 가진 robots.txt를 작성해 달라고 ChatGPT에게 부탁할 수 있습니다. 아래는 robots.txt 작업을 요청하는 프롬프트입니다.
+
+### 프롬프트
+Bing이 /assets/ 디렉터리를 크롤링하는 것을 차단하지만 /assets/javascript/ 디렉터리를 크롤링하는 것을 허용하는 robots.txt 파일을 만듭니다.
+
+### ChatGPT 응답
+
+## 메타 태그 생성하기
+메타 태그는 웹페이지의 정보를 명시하기 위한 목적으로 사용하는 HTML 태그입니다.
+메타 태그는 `<meta>` 태그를 사용하며 HTML 문서에서 `<head>` 태그 아래 배치합니다. 메타 태그를 잘 작성한다면 SEO에 좀 더 유리해질 수 있습니다.
+사실, 메타 태그 작성을 도와주는 도구는 이미 마켓에 많이 나와있습니다. SEO 메타 태그 생성기를 활용할 수 도 있지만, ChatGPT를 사용하는 것도 가능합니다.
+
+### 프롬프트
+페이지의 색인을 생성하고 링크를 따라갈 수 있지만 텍스트 스니펫의 문자 수를 46자로 제한하는 로봇의 메타 태그를 만듭니다.
+
+### ChatGPT 응답
+```shell
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<meta name="description" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+```
+
+## 리다이렉션을 위한 .htaccess 재작성 규칙 생성하기
+아파치 웹 서버에서 .htaccess 파일을 사용하고 있다면, .htaccess 작성을 할 때 ChatGPT의 도움을 받을 수 있습니다. .htaccess는 대소문자를 구분하고, 오류가 있을 경우에는 사이트 전체에 영향을 줍니다. .htaccess 작성은 이렇듯 상당히 까다로운 작업이기 때문에 ChatGPT에게 작성을 요청하는 것이 더 좋을 수 도 있습니다.
+
+### 프롬프트
+301 리디렉션을 사용하여 /about.html을 /about-us/로 리디렉션하는 htaccess 재작성 규칙을 만듭니다.
+
+### ChatGPT 응답
+```shell
+RewriteEngine On
+RewriteRule ^about\.html$ /about-us/ [R=301,L]
+```
+
+ChatGPT를 사용해서 SEO 작업을 하는 방법에 대해서 알아보았습니다. 이 외에도 여러 가지 작업에 ChatGPT의 도움을 받을 수 있기 때문에, SEO 작업은 이전보다 더 빠르게 진행할 수 있습니다. 그러나 한 가지 주의할 점은 ChatGPT의 출력이 맞는지 확인하는 과정이 반드시 필요하다는 점입니다.
+
+## 참고
+* [5 powerful chatgpt prompts for technical seo](https://hallanalysis.com/5-powerful-chatgpt-prompts-for-technical-seo/)
