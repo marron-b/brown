@@ -1,6 +1,6 @@
 {
   "index": {
-    "title": "Brown",
+    "title": "marron",
     "display": "hidden",
     "theme": {
       "breadcrumb": false,
@@ -9,8 +9,8 @@
       "pagination": false
     }
   },
-  "tech_reports": {
-    "title": "기술 리포트"
+  "AI_trends": {
+    "title": "AI 트렌드"
   },
   "---": {
     "type": "separator"
