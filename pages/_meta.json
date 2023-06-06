@@ -15,8 +15,8 @@
   "---": {
     "type": "separator"
   },
-  "develop": {
-    "title": "개발"
+  "nextra": {
+    "title": "넥스트라"
   },
   "test_about": {
     "display": "hidden"
