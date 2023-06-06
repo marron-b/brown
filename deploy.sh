@@ -9,5 +9,8 @@ git push origin --delete gh-pages
 # Create and checkout gh-pages branch locally
 git checkout -b gh-pages
 
+# Run yarn static command
+yarn static
+
 # Run yarn deploy command
 yarn deploy
