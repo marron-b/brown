@@ -13,7 +13,7 @@ module.exports = withNextra({
     },
     reactStrictMode: true,
     assetPrefix: !debug? `/brown/`: '',
-    trailingSlash: true,
+    trailingSlash: true
 })
 
 // If you have other Next.js configurations, you can pass them as the parameter:
