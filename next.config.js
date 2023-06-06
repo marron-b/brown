@@ -12,7 +12,6 @@ module.exports = withNextra({
         disableStaticImages: true
     },
     reactStrictMode: true,
-    assetPrefix: !debug? `/brown/`: '',
     trailingSlash: true
 })
 
