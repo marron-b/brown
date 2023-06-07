@@ -5,10 +5,7 @@ export default {
         prev: true,
         next: true
     },
-    editLink: {
-        component: null,
-        text: ''
-    },
+    editLink: '',
     feedback: {
         content: '문의하기 →'
     },
@@ -29,10 +26,10 @@ export default {
         component: <div/>
     },
     primaryHue: 38,
-    font: false,
     head: <>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta property="og:type" content="blog"/>
+        <meta property="og:description" content="AI, ChatGPT, 인공지능, 기계학습"/>
         </>
 }
 
