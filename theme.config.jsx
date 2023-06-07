@@ -5,7 +5,9 @@ export default {
         prev: true,
         next: true
     },
-    editLink: '',
+    editLink: {
+        text: '수정하기 →'
+    },
     feedback: {
         content: '문의하기 →'
     },
