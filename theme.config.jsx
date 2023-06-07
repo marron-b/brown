@@ -1,6 +1,6 @@
 export default {
     logo: <span>🌊</span>,
-    docsRepositoryBase: 'https://github.com/marron-b/brown/tree/main/pages',
+    docsRepositoryBase: 'https://github.com/marron-b/brown/tree/main',
     navigation: {
         prev: true,
         next: true
