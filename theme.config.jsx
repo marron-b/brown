@@ -32,6 +32,9 @@ export default {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta property="og:type" content="blog"/>
         <meta property="og:description" content="AI, ChatGPT, 인공지능, 기계학습"/>
+        <meta httpEquiv='cache-control' content='no-cache'/>
+        <meta httpEquiv='expires' content='0'/>
+        <meta httpEquiv='pragma' content='no-cache'/>
         </>
 }
 
