@@ -1,12 +1,13 @@
 import { Steps } from 'nextra-theme-docs'
+import { Callout } from 'nextra/components'
 
 ---
-title: 맥에서 스테이블 디퓨전 사용하기
-description: 맥에서 스테이블 디퓨전 사용하기
+title: 애플 실리콘에서 스테이블 디퓨전 사용하기
+description: 애플 실리콘에서 스테이블 디퓨전 사용하기
 ---
 
 ![Théâtre D’opéra Spatial](https://static01.nyt.com/images/2022/09/01/business/00roose-1/merlin_212276709_3104aef5-3dc4-4288-bb44-9e5624db0b37-jumbo.jpg?quality=75&auto=webp)
-# 맥에서 스테이블 디퓨전 사용하기
+# 애플 실리콘에서 스테이블 디퓨전 사용하기
 
 스테이블 디퓨전(Stable Diffusion)은 스타트업 [스태빌리티 AI(Stability AI)](https://stability.ai/)가 여러 학술 연구원 및 비영리 단체와 공동으로 개발해 2022년에 오픈소스로 공개한 텍스트-이미지 생성 모델입니다. 최근 다양한 텍스트-이미지 생성 모델이 시장에 있지만, 오픈소스로 공개되어있는 모델은 스테이블 디퓨전이 유일합니다. 코드가 공개되어있는 덕분에 전세계의 많은 곳에서 다양한 방향으로 스테이블 디퓨전 모델을 확장 개발하고 있습니다. 스테이블 디퓨전이 다른 텍스트-이미지 생성 모델보다 많이 활용되고 있는 또 다른 이유는 스테이블 디퓨전으로 생성한 이미지가 '스페이스 오페라 극장'이라는 이름으로 2022년 콜로라도 주립 박물관 디지털 아트 대회에 출픔됐고, 우승을 했기 때문입니다.
 
@@ -55,8 +56,11 @@ table-diffusion-webui/models/Stable-diffusion
 * Stable Diffusion 2.1 (v2-1_768-ema-pruned.ckpt)
 
 이 글에서는 Stable Diffusion 1.5를 사용합니다.
+<Callout type="info">
+  스테이블 디퓨전 모델 1, 2의 차이는 [Stable Diffusion 1 vs 2 What you need to know](https://www.assemblyai.com/blog/stable-diffusion-1-vs-2-what-you-need-to-know/)를 참고합니다.
+</Callout>
  
-### 스텝 4: 스테이블 디퓨전 web UI 실행하기
+### 스텝4: 스테이블 디퓨전 web UI 실행하기
 ./webui.sh 파일을 실행합니다.
 </Steps>
 
