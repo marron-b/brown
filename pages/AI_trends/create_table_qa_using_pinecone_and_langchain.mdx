@@ -131,3 +131,205 @@ retriever = SentenceTransformer("deepset/all-mpnet-base-v2-table", device=device
 retriever
 
 ```
+
+```python
+SentenceTransformer(
+  (0): Transformer({'max_seq_length': 384, 'do_lower_case': False}) with Transformer model: MPNetModel 
+  (1): Pooling({'word_embedding_dimension': 768, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False})
+  (2): Normalize()
+)
+
+```
+표를 특정 형식으로 변환하는 함수를 작성합니다.
+```python
+def _preprocess_tables(tables: list):
+    processed = []
+    # loop through all tables
+    for table in tables:
+        # convert the table to csv and 
+        processed_table = "\n".join([table.to_csv(index=False)])
+        # add the processed table to processed list
+        processed.append(processed_table)
+    return processed
+```
+여기에는 표만 사용하고 있습니다. 그러나 표를 검색하는 동안, 검색기가 메타데이터를 고려하도록 하려면 표의 시작 부분에서 줄 바꿈 문자로 구분된 title, section_title 등과 같은 모든 메타데이터 문자열을 조인할 수 있습니다.
+
+서식이 지정된 표를 살펴봅니다.
+
+```python
+# format all the dataframes in the tables list
+processed_tables = _preprocess_tables(tables)
+# display the formatted table
+processed_tables[2]
+
+```
+```shell
+
+'Level,Team,League,Manager\nAAA,Tidewater Tides,International League,Tom Burgess\nAA,Jackson Mets,Texas League,John Antonelli\nA,Lynchburg Mets,Carolina League,Jack Aker\nA,Wausau Mets,Midwest League,Bill Monbouquette\nRookie,Marion Mets,Appalachian League,Al Jackson\n'
+```
+
+임베딩 모델이 형식이 지정된 표를 이해하고 정확하게 임베딩을 생성하도록 훈련됩니다.
+
+
+### 파인콘 인덱스 초기화
+
+여기서는 파인콘 벡터 데이터베이스를 벡터 인덱스로 사용합니다. 파인콘 인덱스는 자연어 쿼리(쿼리 벡터)를 사용해 검색할 수 있는 표의 벡터 표현을 저장합니다. 파인콘은 쿼리 벡터와 벡터 인덱스에 저장된 포함된 표 간의 유사성을 계산합니다. 
+
+파인콘을 사용하려면 먼저 파인콘과 연결을 초기화해야 합니다. 파인콘에서 무료 API 키를 발급받아, 아래와 같이 초기화합니다.
+
+```python
+import pinecone
+
+# connect to pinecone environment
+pinecone.init(
+    api_key="YOUR API KEY",
+    environment="YOUR_ENVIRONMENT"
+)
+
+```
+
+새로운 인덱스를 생성합니다. 콘텍스트 임베딩을 생성하는 데 사용하는 검색기가 768차원 벡터를 출력하기 때문에, 메트릭 유형을 '코사인'으로 지정하고 차원을 768로 지정합니다. 파인콘은 코사인 유사성을 사용해 쿼리와 테이블 임베딩 간의 유사성을 계산합니다.
+
+```python
+# you can choose any name for the index
+index_name = "table-qa"
+
+# check if the table-qa index exists
+if index_name not in pinecone.list_indexes():
+    # create the index if it does not exist
+    pinecone.create_index(
+        index_name,
+        dimension=768,
+        metric="cosine"
+    )
+
+# connect to table-qa index we created
+index = pinecone.Index(index_name)
+```
+
+### 임베딩 생성 및 업서트
+테이블 임베딩을 생성하고, 이를 파인콘 인덱스에 업로드해야 합니다. 아래 코드는 테이블 임베딩을 생성하고 파인콘 인덱스에 업로드합니다.
+
+```python
+from tqdm.auto import tqdm
+
+# we will use batches of 64
+batch_size = 64
+
+for i in tqdm(range(0, len(processed_tables), batch_size)):
+    # find end of batch
+    i_end = min(i+batch_size, len(processed_tables))
+    # extract batch
+    batch = processed_tables[i:i_end]
+    # generate embeddings for batch
+    emb = retriever.encode(batch).tolist()
+    # create unique IDs ranging from zero to the total number of tables in the dataset
+    ids = [f"{idx}" for idx in range(i, i_end)]
+    # add all to upsert list
+    to_upsert = list(zip(ids, emb))
+    # upsert/insert these records to pinecone
+    _ = index.upsert(vectors=to_upsert)
+
+# check that we have all vectors in index
+index.describe_index_stats()
+```
+
+```shell
+  100%|██████████| 313/313 [09:12<00:00, 1.49s/it]
+
+{'dimension': 768,
+ 'index_fullness': 0.0,
+ 'namespaces': {'': {'vector_count': 20000}},
+ 'total_vector_count': 20000}
+
+```
+이제 파인콘 인덱스를 쿼리 할 준비가 되었습니다. 쿼리와 관련된 표를 변환하는지 테스트해 보겠습니다.
+```python
+query = "which country has the highest GDP in 2020?"
+# generate embedding for the query
+xq = retriever.encode([query]).tolist()
+# query pinecone index to find the table containing answer to the query
+result = index.query(xq, top_k=1)
+result
+
+```
+```python
+{'matches': [{'id': '19931', 'score': 0.822087, 'values': []}], 'namespace': ''}
+```
+파인콘 인덱스는 82.2% 신뢰도로 쿼리에 대한 답변을 포함하는 표를 반환했습니다. 이 표에 실제로 답이 포함되어 있는지 확인해 보겠습니다. 반환된 표를, 인덱스를 사용해서 관련 pandas 데이터 프레임을 가져옵니다. 
+
+```python
+id = int(result["matches"][0]["id"])
+tables[id].head()
+```
+
+| Rank | Country   | GDP (PPP, Peak Year) millions of USD | Peak Year |
+|------|-----------|--------------------------------------|-----------|
+| 1    | China     | 27,804,953                           | 2020      |
+| 2    | India     | 11,321,280                           | 2020      |
+| 3    | Russia    | 4,389,960                            | 2019      |
+| 4    | Indonesia | 3,778,134                            | 2020      |
+| 5    | Brazil    | 3,596,841                            | 2020      |
+
+파인콘 인덱스에 의해 반환된 표는 실제로 쿼리에 대한 답변을 포함하고 있습니다. 이제 이 표를 읽고 정확한 답을 추출할 수 있는 모델을 만들어봅니다.
+
+### 표 리더 초기화
+표 QA 작업을 위해 미세 조정된 TAPAS 모델을 사용합니다. TAPAS는 위키피디아의 대규모 영어 데이터 모음에서 자체 감독 방식으로 사전 훈련된 BERT와 유사한 트랜스포머(Transformer) 모델입니다. 허깅페이스 모델 허브에서 질문 응답 파이프라인으로 모델과 토크나이저를 로드합니다.
+```python
+from transformers import pipeline, TapasTokenizer, TapasForQuestionAnswering
+
+model_name = "google/tapas-base-finetuned-wtq"
+# load the tokenizer and the model from huggingface model hub
+tokenizer = TapasTokenizer.from_pretrained(model_name)
+model = TapasForQuestionAnswering.from_pretrained(model_name, local_files_only=False)
+# load the model and tokenizer into a question-answering pipeline
+pipe = pipeline("table-question-answering",  model=model, tokenizer=tokenizer, device=device)
+
+```
+답을 추출하기 위해 이전에 사용했던 질문을 응답 파이프라인에 파인콘 인덱스와 쿼리가 반환한 표에 실행해 봅니다.
+
+```python
+pipe(table=tables[id], query=query)
+
+```
+```python
+{'answer': 'China',
+ 'coordinates': [(0, 1)],
+ 'cells': ['China'],
+ 'aggregator': 'NONE'}
+
+```
+모델이 질문에 정확하게 대답했습니다. 
+
+### 쿼리
+먼저 쿼리를 처리하고 표에서 답변을 추출하는 두 가지 함수를 정의합니다.
+```python
+def query_pinecone(query):
+    # generate embedding for the query
+    xq = retriever.encode([query]).tolist()
+    # query pinecone index to find the table containing answer to the query
+    result = index.query(xq, top_k=1)
+    # return the relevant table from the tables list
+    return tables[int(result["matches"][0]["id"])]
+```
+
+```python
+def get_answer_from_table(table, query):
+    # run the table and query through the question-answering pipeline
+    answers = pipe(table=table, query=query)
+    return answers
+
+```
+
+```python
+query = "which car manufacturers produce cars with a top speed of above 180 kph?"
+table = query_pinecone(query)
+table
+
+```
+
+
+## 참고
+* [Hugginface queestion-answering](https://huggingface.co/tasks/question-answering)
+* [How to build an Open-Domain Question Answering System?](https://lilianweng.github.io/posts/2020-10-29-odqa/)
+* [Pinecone Table Question Answering](https://docs.pinecone.io/docs/table-qa)
