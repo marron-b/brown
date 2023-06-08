@@ -50,3 +50,84 @@
 * pinecone-client: 파인콘 파이선 클라이언트입니다.
 * sentence_transformers: 문장, 단락, 이미지에 대한 고밀더 벡터 표현을 쉽게 계산하는 방법을 제공하며 BERT/RoBERTa/XLM-RoBERTa등과 같은 트랜스포머를 기반으로 하는 프레임워크입니다.
 * torch-scatter: 파이토치에서 사용하기에 최적화된 sparse update(scatter and segment) 연산의 확장 라이브러리들로 구성되어 있습니다. 
+
+### 데이터 세트 로드하기
+위키피디아의 텍스트와 표로 구성된 OTT-QA (Open Table-and-Text Question Answering) 데이터 세트의 하위 세트로 작업할 것입니다. 하위 세트에는 20,000개의 테이블이 있으며, 아래와 같이 Huggingface Datasets 허브에서 로드할 수 있습니다.
+
+```python
+from datasets import load_dataset
+
+# load the dataset from huggingface datasets hub
+data = load_dataset("ashraq/ott-qa-20k", split="train")
+data
+```
+
+```python
+Dataset({
+    features: ['url', 'title', 'header', 'data', 'section_title', 'section_text', 'uid', 'intro'],
+    num_rows: 20000
+})
+```
+
+```python
+data[2]
+
+```
+
+```python
+{'url': 'https://en.wikipedia.org/wiki/1976_New_York_Mets_season',
+ 'title': '1976 New York Mets season',
+ 'header': ['Level', 'Team', 'League', 'Manager'],
+ 'data': [['AAA', 'Tidewater Tides', 'International League', 'Tom Burgess'],
+  ['AA', 'Jackson Mets', 'Texas League', 'John Antonelli'],
+  ['A', 'Lynchburg Mets', 'Carolina League', 'Jack Aker'],
+  ['A', 'Wausau Mets', 'Midwest League', 'Bill Monbouquette'],
+  ['Rookie', 'Marion Mets', 'Appalachian League', 'Al Jackson']],
+ 'section_title': 'Farm system',
+ 'section_text': 'See also : Minor League Baseball',
+ 'uid': '1976_New_York_Mets_season_7',
+ 'intro': 'The New York Mets season was the 15th regular season for the Mets, who played home games at Shea Stadium. Led by manager Joe Frazier, the team had an 86-76 record and finished in third place in the National League East.'}
+```
+
+테이터 세트에는 서로 관련있는 텍스트와 표가 있습니다. 이 예제에서는 표만 사용할 것 이기 때문에, 표를 추출해서 pandas 데이터 프레임으로 변환합니다.
+
+```python
+import pandas as pd
+
+# store all tables in the tables list
+tables = []
+# loop through the dataset and convert tabular data to pandas dataframes
+for doc in data:
+    table = pd.DataFrame(doc["data"], columns=doc["header"])
+    tables.append(table)
+```
+
+```python
+tables[2]
+```
+
+| Level  | Team            | League               | Manager           |
+|--------|-----------------|----------------------|-------------------|
+| AAA    | Tidewater Tides | International League | Tom Burgess       |
+| AA     | Jackson Mets    | Texas League         | John Antonelli    |
+| A      | Lynchburg Mets  | Carolina League      | Jack Aker         |
+| A      | Wausau Mets     | Midwest League       | Bill Monbouquette |
+| Rookie | Marion Mets     | Appalachian League   | Al Jackson        |
+
+
+### 검색기(Retriever) 초기화
+검색기는 자연어 쿼리와 표 형식 데이터를 임베딩/벡터로 변환합니다. 자연어 질문과, 질문에 대한 답변이 포함된 표가 벡터 공간 가까운 곳에 위치하도록 임베딩을 생성합니다. 
+
+검색 작업을 위해서 표 형식 데이터를 포함하도록 훈련한 Sentence Transformer 모델을 사용할 것입니다. 아래와 같이 Huggingface Models 허브에서 모델을 로드합니다.
+
+```python
+import torch
+from sentence_transformers import SentenceTransformer
+
+# set device to GPU if available
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# load the table embedding model from huggingface models hub
+retriever = SentenceTransformer("deepset/all-mpnet-base-v2-table", device=device)
+retriever
+
+```
