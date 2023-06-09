@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import { useConfig } from 'nextra-theme-docs'
+
 export default {
     logo: <span>🌊</span>,
     docsRepositoryBase: 'https://github.com/marron-b/brown/tree/main',
@@ -28,13 +31,24 @@ export default {
         component: <div/>
     },
     primaryHue: 38,
-    head: <>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta property="og:type" content="blog"/>
-        <meta property="og:description" content="AI, ChatGPT, 인공지능, 기계학습"/>
-        <meta httpEquiv='cache-control' content='no-cache'/>
-        <meta httpEquiv='expires' content='0'/>
-        <meta httpEquiv='pragma' content='no-cache'/>
-        </>
-}
+    head: () => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { asPath, defaultLocale, locale } = useRouter()
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { frontMatter } = useConfig()
+        const url =
+          'https://marron-marron.me' +
+          (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
 
+        return (
+          <>
+            <meta property="og:url" content={url} />
+            <meta property="og:title" content={frontMatter.title || 'Tech trends'} />
+            <meta
+              property="og:description"
+              content={frontMatter.description || 'Tech trends'}
+            />
+          </>
+        )
+    }
+}
