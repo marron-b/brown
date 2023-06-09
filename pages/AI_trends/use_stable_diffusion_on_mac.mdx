@@ -2,7 +2,9 @@
 title: 애플 실리콘에서 스테이블 디퓨전 사용하기
 description: 애플 실리콘에서 스테이블 디퓨전 사용하기
 ---
-![space_opera](/images/space_opera.jpeg)
+![Théâtre D'opéra Spatial.](/images/stable_diffusion/space_opera.jpeg)
+<sub>Théâtre D'opéra Spatial.</sub>
+
 # 애플 실리콘에서 스테이블 디퓨전 사용하기
 
 스테이블 디퓨전(Stable Diffusion)은 스타트업 [스태빌리티 AI(Stability AI)](https://stability.ai/)가 여러 학술 연구원 및 비영리 단체와 공동으로 개발해 2022년에 오픈소스로 공개한 텍스트-이미지 생성 모델입니다. 최근 다양한 텍스트-이미지 생성 모델이 시장에 있지만, 오픈소스로 공개되어있는 모델은 스테이블 디퓨전이 유일합니다. 코드가 공개되어있는 덕분에 전세계의 많은 곳에서 다양한 방향으로 스테이블 디퓨전 모델을 확장 개발하고 있습니다. 스테이블 디퓨전이 다른 텍스트-이미지 생성 모델보다 많이 활용되고 있는 또 다른 이유는 스테이블 디퓨전으로 생성한 이미지가 '스페이스 오페라 극장'이라는 이름으로 2022년 콜로라도 주립 박물관 디지털 아트 대회에 출픔됐고, 우승을 했기 때문입니다.
@@ -38,7 +40,8 @@ git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
 ```shell
 table-diffusion-webui/models/Stable-diffusion 
 ```
-허깅페이스에서 다운로드 가능한 스테이블 디퓨전 모델을 확인할 수 있습니다. 모델을 다운로드 받으려면 Files and versions 탭을 클릭하고, ".ckpt" 또는 ".safetensors" 확장자로 나열된 파일을 찾습니다. 파일 크기 오른쪽에 있는 아래쪽 화살표를 클릭하여 다운로드합니다. 
+허깅페이스에서 다운로드 가능한 스테이블 디퓨전 모델을 확인할 수 있습니다. 모델을 다운로드 받으려면 Files and versions 탭을 클릭하고, ".ckpt" 또는 ".safetensors" 확장자로 나열된 파일을 찾습니다. 파일 크기 오른쪽에 있는 아래쪽 화살표를 클릭하여 다운로드합니다.
+여러개의 스테이블 디퓨전 모델을 다운로드 받아서 사용할 수 있습니다.
   
   
 아래는 가장 많이 사용되고 있는 디퓨전 모델입니다.
@@ -56,14 +59,57 @@ table-diffusion-webui/models/Stable-diffusion
   스테이블 디퓨전 모델 1, 2의 차이는 [Stable Diffusion 1 vs 2 What you need to know](https://www.assemblyai.com/blog/stable-diffusion-1-vs-2-what-you-need-to-know/)를 참고합니다.
 
 ### 스텝4: 스테이블 디퓨전 web UI 실행하기
-./webui.sh 파일을 실행합니다.
+아래 명령어로 webui.sh 파일을 실행합니다.
+```shell
+./webui.sh
+```
+파일을 실행했을 때, 아래와 같은 에러가 발생할 수 있습니다.
+```shell
+ERROR: python3-venv is not installed, aborting...
+```
+파이선 가상환경이 활성화되지 않아서 발생하는 문제입니다. 아래 명령어로 가상환경을 활성화한 뒤 webui.sh 파일을 실행합니다.
+```shell
+source venv/bin/activate
+```
+
+### 스텝5: 웹 화면 확인하기
+웹 브라우저에서 아래 주소로 접속합니다.
+
+```shell
+http://127.0.0.1:7860
+```
+아래 화면이 나타나면 스테이블 디퓨전이 정상적으로 실행된 것입니다.
+![stable diffusion main web ui](/images/stable_diffusion/stable_diffusion_01.png)
+<sub>스테이블 디퓨전 메인 화면</sub>
 
 ## 스테이블 디퓨전 web UI 사용하기
 
+스테이블 디퓨전에서 제공하는 세팅값에 대해서 알아봅니다.
+
+### 스테이블 디퓨전 체크 포인트
+사용하고 싶은 모델을 선택할 수 있습니다.
+
+### 프롬프트, 네거티브 프롬프트
+미드저니는 하나의 프롬프트만 입력합니다. 스테이블 디퓨전은 프롬프트, 네거티브 프롬프트(negative prompt) 이렇게 총 2 개의 프롬프트를 입력할 수 있습니다.
+아래는 각 프롬프트에 관한 설명입니다.
+
+* 프롬프트: 이미지에 반영되기를 원하는 내용을 지시하는 프롬프트.
+* 네거티브 프롬프트: 이미지에 반영되지 않기를 원하는 내용을 지시하는 프롬프트.
+
+### 샘플링 메서드(Sampling method)
+샘플링 메서드는 샘플링하는 방법을 말합니다. 현재 가장 많이 사용되는 샘플링 메서는 아래와 같습니다.
+
+* Euler a
+* DPM++ 2M Karras
+* DPM++ SDE Karras
+
+### 샘플링 스텝(Sampling steps)
+그림을 생성할 때 샘플링을 몇 단계를 거칠 것인지 결정합니다. 0~150까지 설정할 수 있으며, 숫자가 증가할 수록 더 많은 샘플링 단계를 거칩니다.
+
+### 얼굴 보정(Restore faces)/타일링(Tiling)
+
 ## 트러블슈팅
 트러블슈팅은 스테이블 디퓨전의 공식 문서 [troubleshooting](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Installation-on-Apple-Silicon#troubleshooting) 부분을 참고합니다.
-
-## 미드저니와 비교
 
 
 ## 참고 

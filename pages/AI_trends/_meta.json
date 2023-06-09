@@ -7,5 +7,8 @@
   },
   "use_stable_diffusion_on_mac": {
     "title": "애플 실리콘에서 스테이블 디퓨전 사용하기"
+  },
+  "stable_diffusion_sampling_method": {
+    "title": "스테이블 디퓨전의 샘플링 메서드 알아보기"
   }
 }
