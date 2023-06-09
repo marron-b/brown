@@ -1,5 +1,8 @@
 {
   "create_table_qa_using_pinecone_and_langchain": {
     "title": "표 질의응답을 파인콘, 랭체인으로 만들기"
+  },
+  "create_semantic_search_using_pinecone_and_huggingface": {
+    "title": "파인콘, 허깅페이스로 시맨틱 검색 만들기"
   }
 }
