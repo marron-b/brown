@@ -5,15 +5,15 @@ const withNextra = require('nextra')({
     themeConfig: './theme.config.jsx'
 })
 // annotated for temp
-// module.exports = withNextra({
-//     images: {
+module.exports = withNextra({
+    images: {
 //         loader: 'custom',
-//         unoptimized: true,
+        unoptimized: true,
 //         disableStaticImages: true
-//     },
-//     reactStrictMode: true,
-//     trailingSlash: true
-// })
+    },
+    reactStrictMode: true,
+    trailingSlash: true
+})
 
 module.exports = withNextra()
 
