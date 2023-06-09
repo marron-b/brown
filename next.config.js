@@ -6,16 +6,17 @@ const withNextra = require('nextra')({
 })
 // annotated for temp
 module.exports = withNextra({
+    output: 'export',
     images: {
 //         loader: 'custom',
-        unoptimized: true,
+        unoptimized: true
 //         disableStaticImages: true
     },
     reactStrictMode: true,
     trailingSlash: true
 })
 
-module.exports = withNextra()
+// module.exports = withNextra()
 
 // If you have other Next.js configurations, you can pass them as the parameter:
 // module.exports = withNextra({ /* other next.js config */ })
