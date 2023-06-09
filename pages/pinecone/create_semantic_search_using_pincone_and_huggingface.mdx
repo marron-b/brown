@@ -1,0 +1,168 @@
+
+![semantic_search](/images/semantic_search.png)
+# 파인콘, 허깅페이스로 시맨틱 검색 만들기
+## 시맨틱 검색이란
+시맨틱 검색(semantic search)란 사용자가 검색을 하려는 의도를 파악하고, 문서에 나타난 용어의 문맥을 이해해 사용자가 원하는 것과 더 관련성 높은 결과를 생성하는 것을 말합니다. 한국에서는 2009년에 네이트에서 '시맨틱 검색'이라는 이름으로 검색 서비스에 도입했으며, 2013년에 서비스를 중단했습니다. 그래서 네이트를 사용해 본 사람들이라면 시맨틱 검색이라는 용어에 친숙할 것입니다. 아래는 위키피디아의 시맨틱 검색에 대한 설명입니다.
+>시맨틱 검색은 검색 엔진이 쿼리의 전체 의미를 이해하지 않고 쿼리 단어 또는 그 변형의 리터럴 일치를 찾는 어휘 검색과 구별되는 의미 검색을 나타냅니다. 시맨틱 검색은 검색자의 의도와 검색 가능한 데이터 공간에 나타나는 용어의 문맥적 의미를 이해함으로써 검색 정확도를 향상하고 더 관련성 높은 결과를 생성합니다. 시맨틱 검색에서 순위가 ​​좋은 콘텐츠는 자연스러운 음성으로 잘 작성되고, 사용자의 의도에 집중하며, 사용자가 향후 찾을 수 있는 관련 주제를 고려한 것입니다.
+이 글에서는 파인콘의 semantic search를 참고해 시맨틱 검색을 Colab을 활용해 만들어봅니다. 
+
+## 데이터 전처리
+시맨틱 검색(semantic search)란 사용자가 검색을 하려는 의도를 파악하고, 문서에 나타난 용어의 문맥을 이해해 사용자가 원하는 것과 더 관련성 높은 결과를 생성하는 것을 말합니다. 한국에서는 2009년에 네이트에서 '시맨틱 검색'이라는 이름으로 검색 서비스에 도입했으며, 2013년에 서비스를 중단했습니다. 그래서 네이트를 사용해 본 사람들이라면 시맨틱 검색이라는 용어에 친숙할 것입니다. 아래는 위키피디아의 시맨틱 검색에 대한 설명입니다. 
+파인콘에서 사용할 수 있는 데이터 세트를 준비하는 과정은 아래와 같은 단계를 거칩니다.
+
+1. 허깅페이스(Huggingface) 데이터 세트에서 쿼라(Quora) 데이터 세트를 다운로드합니다.
+2. 데이터 세트의 텍스트 콘텐츠를 벡터에 포함합니다.
+3. 파인콘에 추가할 수 있는 구조로 변형합니다.
+
+먼저 쿼라의 데이터 세트를 다운로드합니다.
+```python
+from datasets import load_dataset
+
+dataset = load_dataset('quora', split='train[240000:320000]')
+dataset
+
+```
+```python
+WARNING:datasets.builder:Found cached dataset quora (/root/.cache/huggingface/datasets/quora/default/0.0.0/36ba4cd42107f051a158016f1bea6ae3f4685c5df843529108a54e42d86c1e04)
+
+
+
+
+
+Dataset({
+    features: ['questions', 'is_duplicate'],
+    num_rows: 80000
+})
+
+```
+데이터 세트에는 쿼라의 자연어 질문 쌍이 400,000개 이상이 포함되어 있습니다. 데이터 세트 일부를 출력해서 데이터 형태를 확인합니다.
+```python
+dataset[:5]
+```
+```python
+{'questions': [{'id': [207550, 351729],
+   'text': ['What is the truth of life?', "What's the evil truth of life?"]},
+  {'id': [33183, 351730],
+   'text': ['Which is the best smartphone under 20K in India?',
+    'Which is the best smartphone with in 20k in India?']},
+  {'id': [351731, 351732],
+   'text': ['Steps taken by Canadian government to improve literacy rate?',
+    'Can I send homemade herbal hair oil from India to US via postal or private courier services?']},
+  {'id': [37799, 94186],
+   'text': ['What is a good way to lose 30 pounds in 2 months?',
+    'What can I do to lose 30 pounds in 2 months?']},
+  {'id': [351733, 351734],
+   'text': ['Which of the following most accurately describes the translation of the graph y = (x+3)^2 -2 to the graph of y = (x -2)^2 +2?',
+    'How do you graph x + 2y = -2?']}],
+ 'is_duplicate': [False, True, False, True, False]}
+
+```
+is_duplicated 키를 보면 질문이 중복되는지 여부를 확인할 수 있습니다. 사실, 질문의 중복 여부는 중요하지 않습니다. 텍스트만 필요하기 때문에, 텍스트만 추출해서 questions 리스트에 담습니다.
+
+```python
+questions = []
+
+for record in dataset['questions']:
+    questions.extend(record['text'])
+  
+# remove duplicates
+questions = list(set(questions))
+print('\n'.join(questions[:5]))
+print(len(questions))
+
+```
+
+```python
+Does outer space ever stop?
+Why is Eunuch and Son of Bitch more worried than emperor at ASEAM meeting in Laos?
+How do I apply for Google's Digital Marketing Course?
+How is the word 'species' used in a sentence?
+What will happen if a 10'x10'x8" concrete slab was thrown at your whole body at say 43 mph?
+136057
+```
+질문이 준비되었으니 이제 임베딩을 진행하고 업서트(upsert)를 할 수 있는 형태로 만듭니다.
+
+
+## 임베딩 및 업서트 형식 구축
+임베딩을 생성하기 위해서 MiniLM-L6 문장 변환기 모델을 사용합니다. 이 모델은 꽤 효율적인 시맨틱 유사도 임베딩 모델로 sentence-transformers 라이브러리를 통해서 사용할 수 있습니다. 아래 코드로 모델을 초기화합니다.
+
+```python
+from sentence_transformers import SentenceTransformer
+import torch
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+if device != 'cuda':
+    print(f"You are using {device}. This is much slower than using "
+          "a CUDA-enabled GPU. If on Colab you can change this by "
+          "clicking Runtime > Change runtime type > GPU.")
+
+model = SentenceTransformer('all-MiniLM-L6-v2', device=device)
+model
+
+```
+```python
+SentenceTransformer(
+  (0): Transformer({'max_seq_length': 256, 'do_lower_case': False}) with Transformer model: BertModel 
+  (1): Pooling({'word_embedding_dimension': 384, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False})
+  (2): Normalize()
+)
+
+```
+모델을 프린트했을 때 확인할 수 있는 3 가지 요소에 대해 살펴봅니다.
+* max_seq_length가 256입니다. 싱글 벡터 임베딩에 인코딩 될 수 있는 토큰의 최대 개수가 256개라는 뜻입니다. 256개를 넘으면 잘리게 됩니다.
+* word_embeddings_dimension은 이 모델의 벡터 차원이 384이라는 뜻입니다. 나중에 파인콘 벡터 인덱스를 초기화하는데 이 word_embeddings_dimension 값이 필요합니다.
+* Normalize()는 모델이 생성한 모든 벡터가 정규화됐다는 것을 의미합니다. 이제 코사인 유사도를 사용해 유사도를 측정하는 모델도 스칼라곱을 사용할 수 있습니다. 사실, 정규화된 벡터 코사인과 스칼라곱은 동일합니다.  
+이제 문장 임베딩을 아래와 같이 생성할 수 있습니다.
+```python
+query = 'which city is the most populated in the world?'
+
+xq = model.encode(query)
+xq.shape
+
+```
+문장을 임베딩 하면, 384차원으로 임베딩이 됩니다.(word_embeddings_dimension과 같은 값입니다.)
+이제 파인콘에 업서트할 수 있도록 준비합니다.
+```python
+_id = '0'
+metadata = {'text': query}
+
+vectors = [(_id, xq, metadata)]
+```
+파인콘에 데이터를 업서트 할 때는 배치 단위로 진행할 것이므로, 벡터는 (id, embedding, metadata) 튜플을 담은 리스트 형태여야 합니다.
+
+## 인덱스 생성
+이제 인덱스를 설정해 데이터를 저장합니다. 먼저 파인콘 연결을 초기화합니다.
+```python
+import os
+import pinecone
+
+# get api key from app.pinecone.io
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY') or 'PINECONE_API_KEY'
+# find your environment next to the api key in pinecone console
+PINECONE_ENV = os.environ.get('PINECONE_ENVIRONMENT') or 'PINECONE_ENVIRONMENT'
+
+pinecone.init(
+    api_key=PINECONE_API_KEY,
+    environment=PINECONE_ENV
+)
+
+```
+semantic-search이라는 이름의 새 인덱스를 생성합니다. 
+
+```python
+index_name = 'semantic-search'
+
+# only create index if it doesn't exist
+if index_name not in pinecone.list_indexes():
+    pinecone.create_index(
+        name=index_name,
+        dimension=model.get_sentence_embedding_dimension(),
+        metric='cosine'
+    )
+
+# now connect to the index
+index = pinecone.GRPCIndex(index_name)
+
+```
+파인콘에서 생성된 인덱스를 확인할 수 있습니다. 인덱스 이름은 코드에서 지정한 데로 semantic-search이며, metric은 cosine을 사용하는 것을 확인할 수 있습니다. 
+
