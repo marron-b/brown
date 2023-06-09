@@ -15,8 +15,8 @@
   "---": {
     "type": "separator"
   },
-  "nextra": {
-    "title": "넥스트라"
+  "pinecone": {
+    "title": "파인콘"
   },
   "test_about": {
     "display": "hidden"
