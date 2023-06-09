@@ -1,4 +1,4 @@
-import {Noto_Sans} from "@next/font/google";
+import {Noto_Sans} from "next/font/google";
 import {BrownProvider} from "../context/context";
 import {prefix} from "../config/config";
 
