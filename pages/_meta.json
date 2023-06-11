@@ -12,11 +12,14 @@
   "AI_trends": {
     "title": "AI 트렌드"
   },
+  "pinecone": {
+    "title": "파인콘"
+  },
   "---": {
     "type": "separator"
   },
-  "pinecone": {
-    "title": "파인콘"
+  "datacenter": {
+    "title": "데이터센터"
   },
   "test_about": {
     "display": "hidden"
