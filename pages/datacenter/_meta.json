@@ -1,5 +1,8 @@
 {
   "datacenter_basic": {
     "title": "데이터센터 이해부터 미래까지"
+  },
+  "datacenter_terminology": {
+    "title": "데이터센터 용어집"
   }
 }
