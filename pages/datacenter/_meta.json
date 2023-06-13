@@ -2,6 +2,12 @@
   "datacenter_basic": {
     "title": "데이터 센터 이해부터 미래까지"
   },
+  "datacenter_lifecycle": {
+    "title": "데이터 센터 라이프 사이클"
+  },
+  "datacenter_infrastructure_planning": {
+    "title": "데이터 센터 기반시설 계획"
+  },
   "datacenter_level": {
     "title": "데이터 센터 등급"
   },
