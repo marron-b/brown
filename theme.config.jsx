@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
-import { useConfig } from 'nextra-theme-docs'
+import {useRouter} from 'next/router'
+import {useConfig} from 'nextra-theme-docs'
 
 export default {
     logo: <span>🌊</span>,
@@ -33,22 +33,22 @@ export default {
     primaryHue: 38,
     head: () => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { asPath, defaultLocale, locale } = useRouter()
+        const {asPath, defaultLocale, locale} = useRouter()
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const { frontMatter } = useConfig()
+        const {frontMatter} = useConfig()
         const url =
-          'https://marron-marron.me' +
-          (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
+            'https://marron-marron.me' +
+            (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
 
         return (
-          <>
-            <meta property="og:url" content={url} />
-            <meta property="og:title" content={frontMatter.title || 'Tech trends'} />
-            <meta
-              property="og:description"
-              content={frontMatter.description || 'Tech trends'}
-            />
-          </>
+            <>
+                <meta property="og:url" content={url}/>
+                <meta property="og:title" content={frontMatter.title || 'Tech trends'}/>
+                <meta
+                    property="og:description"
+                    content={frontMatter.description || 'Tech trends'}
+                />
+            </>
         )
     }
 }
