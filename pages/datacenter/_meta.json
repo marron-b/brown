@@ -3,7 +3,8 @@
     "title": "데이터 센터 알아보기"
   },
   "datacenter_lifecycle": {
-    "title": "데이터 센터 라이프 사이클"
+    "title": "데이터 센터 라이프 사이클",
+    "display": "hidden"
   },
   "datacenter_terminology": {
     "title": "데이터 센터 용어집"
