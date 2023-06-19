@@ -9,6 +9,9 @@
       "pagination": false
     }
   },
+  "Korea_IT_trend": {
+    "title": "국내 IT 동향"
+  },
   "AI_trends": {
     "title": "AI 트렌드"
   },
@@ -30,6 +33,16 @@
       "footer": false,
       "sidebar": true,
       "pagination": false
+    }
+  },
+  "logs": {
+    "title": "로그",
+    "type": "menu",
+    "items": {
+      "logs": {
+        "title": "로그",
+        "href": "/logs"
+      }
     }
   }
 }
