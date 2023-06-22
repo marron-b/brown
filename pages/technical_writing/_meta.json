@@ -1,5 +1,9 @@
 {
   "loanword": {
     "title": "이상하고 어색한 외래어 표기"
+  },
+  "ai": {
+    "title": "아직은 음차가 익숙한 AI 관련 용어들",
+    "display": "hidden"
   }
 }

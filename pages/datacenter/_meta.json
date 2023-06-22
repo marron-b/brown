@@ -6,6 +6,9 @@
     "title": "데이터 센터 라이프 사이클",
     "display": "hidden"
   },
+  "datacenter_it_equipment": {
+    "title": "데이터센터 IT 장비 알아보기"
+  },
   "hyperscale_datacenter": {
     "title": "하이퍼스케일 데이터센터 알아보기"
   },
