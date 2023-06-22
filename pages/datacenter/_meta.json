@@ -6,6 +6,10 @@
     "title": "데이터 센터 라이프 사이클",
     "display": "hidden"
   },
+  "hyperscale_datacenter": {
+    "title": "하이퍼스케일 데이터센터 알아보기",
+    "display": "hidden"
+  },
   "datacenter_terminology": {
     "title": "데이터 센터 용어집"
   }
