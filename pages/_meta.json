@@ -18,6 +18,14 @@
   "datacenter": {
     "title": "데이터 센터"
   },
+  "network": {
+    "title": "네트워크",
+    "display": "hidden"
+  },
+  "disaster_recovery": {
+    "title": "재해 복구",
+    "display": "hidden"
+  },
   "---": {
     "type": "separator"
   },
