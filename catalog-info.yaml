@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: brown
+  annotations:
+    github.com/project-slug: marron-b/brown
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guests
