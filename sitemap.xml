@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://marron-marron.me/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/Korea_IT_trend/2023/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/AI_trends/google_io_2023/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/AI_trends/ChatGPT_SEO/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/AI_trends/use_stable_diffusion_on_mac/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/AI_trends/pinecone/about_pinecone/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/AI_trends/pinecone/create_table_qa_using_pinecone_and_langchain/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/AI_trends/pinecone/create_semantic_search_using_pinecone_and_huggingface/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/datacenter/datacenter_basic/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/datacenter/datacenter_terminology/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/technical_writing/loanword/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/logs/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://marron-marron.me/datacenter/hyperscale_datacenter/</loc>
+  <lastmod>2023-06-22T08:43:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
